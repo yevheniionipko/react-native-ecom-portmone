@@ -1,0 +1,11 @@
+framework module PortmoneSDKEcom {
+  umbrella header "PortmoneSDKEcom.h"
+
+  export *
+  module * { export * }
+}
+
+module PortmoneSDKEcom.Swift {
+    header "PortmoneSDKEcom-Swift.h"
+    requires objc
+}

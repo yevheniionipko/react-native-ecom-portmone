@@ -21,6 +21,7 @@
 		3AE9F9B6241FA6D700DF843C /* PortmoneCardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9F9B5241FA6D700DF843C /* PortmoneCardStyle.swift */; };
 		3AE9F9B9241FA71E00DF843C /* PortmoneCardModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9F9B8241FA71E00DF843C /* PortmoneCardModule.m */; };
 		AE1E77402A6AC7331570A170 /* libPods-EcomPortmone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC7694390B32A4A9A4D263C1 /* libPods-EcomPortmone.a */; };
+		D89C731C24211660006E1796 /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89C731B24211660006E1796 /* PortmoneSDKEcom.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		3AE9F9B7241FA71E00DF843C /* PortmoneCardModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PortmoneCardModule.h; sourceTree = "<group>"; };
 		3AE9F9B8241FA71E00DF843C /* PortmoneCardModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PortmoneCardModule.m; sourceTree = "<group>"; };
 		6714807C0873F6E22B486BAE /* Pods-EcomPortmone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcomPortmone.debug.xcconfig"; path = "Target Support Files/Pods-EcomPortmone/Pods-EcomPortmone.debug.xcconfig"; sourceTree = "<group>"; };
+		D89C731B24211660006E1796 /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PortmoneSDKEcom.framework; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FC7694390B32A4A9A4D263C1 /* libPods-EcomPortmone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcomPortmone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE1E77402A6AC7331570A170 /* libPods-EcomPortmone.a in Frameworks */,
+				D89C731C24211660006E1796 /* PortmoneSDKEcom.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +138,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D89C731B24211660006E1796 /* PortmoneSDKEcom.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				FC7694390B32A4A9A4D263C1 /* libPods-EcomPortmone.a */,
@@ -586,6 +590,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = EcomPortmone/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -609,6 +617,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = EcomPortmone/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
