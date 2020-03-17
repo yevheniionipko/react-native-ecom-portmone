@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.name         = package["name"]
   s.version      = package["version"]
   s.summary      = package["description"]
-  s.summary      = "React-Native to share data in a centralized location on the user's device"
+  s.summary      = "React Native Ecom Portmone API"
   s.homepage     = package["homepage"]
   s.license      = package["license"]
   s.author       = package["author"]
