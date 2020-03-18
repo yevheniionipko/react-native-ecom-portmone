@@ -1,7 +1,7 @@
 
 #import <React/RCTBridgeModule.h>
 #import <Foundation/Foundation.h>
-#import "EcomPortmone-Swift.h"
+#import "PortmoneCardModule-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

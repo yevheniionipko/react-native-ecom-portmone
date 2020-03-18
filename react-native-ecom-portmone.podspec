@@ -11,9 +11,10 @@ Pod::Spec.new do |s|
   s.author       = package["author"]
   s.platform     = :ios, "7.0"
   s.source       = { :git => "git@github.com:yevheniionipko/react-native-ecom-portmone", :tag => "1.0.1" }
-  s.source_files  = "ios/**/*.{h,m}"
+  s.source_files  = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
 
+  s.dependency "PortmoneSDKEcom"
   s.dependency "React"
 
 end
