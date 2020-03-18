@@ -2,7 +2,7 @@
 import Foundation
 import PortmoneSDKEcom
 
-class PresenterDelegate: PaymentPresenterDelegate {
+class PortmonePaymentPresenterDelegate: PaymentPresenterDelegate {
   private let onDismissSDK: () -> Void
   
   init(onDismissSDK: @escaping () -> Void) {

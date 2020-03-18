@@ -1,22 +1,25 @@
 require "json"
+
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
 Pod::Spec.new do |s|
-  s.name         = package["name"]
+  s.name         = "react-native-ecom-portmone"
   s.version      = package["version"]
   s.summary      = package["description"]
-  s.summary      = "React Native Ecom Portmone API"
-  s.homepage     = package["homepage"]
-  s.license      = package["license"]
-  s.author       = package["author"]
-  s.platform     = :ios, "7.0"
-  s.source       = { :git => "git@github.com:yevheniionipko/react-native-ecom-portmone", :tag => "1.0.1" }
-  s.source_files  = "ios/**/*.{h,m,swift}"
+  s.description  = <<-DESC
+                  react-native-ecom-portmone
+                   DESC
+  s.homepage     = "https://github.com/yevheniionipko/react-native-ecom-portmone"
+  s.license      = "MIT"
+  s.authors      = { "Kyivstar" => "y.onipko@kyivstar.net" }
+  s.platforms    = { :ios => "9.0" }
+  s.swift_version = "5"
+  s.source       = { :git => "https://github.com/yevheniionipko/react-native-ecom-portmone.git", :tag => "#{s.version}" }
+
+  s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
 
-  s.dependency "PortmoneSDKEcom"
   s.dependency "React"
-
+  s.dependency "PortmoneSDKEcom"
 end
-
 

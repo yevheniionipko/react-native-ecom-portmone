@@ -3,28 +3,26 @@ import UIKit
 import Foundation
 import PortmoneSDKEcom
 
-@objc
-protocol PortmoneModuleDelegate {
-  func dismissView(viewController: UIViewController)
+protocol PortmoneCardDelegate {
+  func dismissView()
 }
 
-@objc
-class PortmoneModule: UIViewController {
+class PortmoneCardViewController: UIViewController {
   
-  @objc var delegate: PortmoneModuleDelegate?
+  public var delegate: PortmoneCardDelegate?
   
   private let paymentType: PaymentType = .mobilePayment
   private let paymentFlowType: PaymentFlowType = .byCard
   
   private var paymentPresenter: PaymentPresenter?
-  private var presenterDelegate: PresenterDelegate?
+  private var presenterDelegate: PortmonePaymentPresenterDelegate?
   private var cardStyle: PortmoneCardStyle?
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     
     self.cardStyle = PortmoneCardStyle.init()
-    self.presenterDelegate = PresenterDelegate.init(onDismissSDK: self.dismissView)
+    self.presenterDelegate = PortmonePaymentPresenterDelegate.init(onDismissSDK: self.dismissView)
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -35,21 +33,21 @@ class PortmoneModule: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  @objc func invokePortmoneSdk(lang: String?) {
-    paymentPresenter = PaymentPresenter(
+  public func invokePortmoneSdk(lang: String?) {
+    self.paymentPresenter = PaymentPresenter(
       delegate: presenterDelegate!,
       styleSource: cardStyle,
       language: Language(rawValue: lang!) ?? Language.ukrainian)
   }
   
-  @objc func initCardPayment(payeeId: String, phoneNumber: String, billAmount: Double) {
-    let paymentParams = getCardPaymentParams(
+  @objc public func initCardPayment(payeeId: String, phoneNumber: String, billAmount: Double) {
+    let paymentParams = self.getCardPaymentParams(
       payeeId: payeeId,
       phoneNumber: phoneNumber,
       billAmount: billAmount
     )
     
-    paymentPresenter?.presentPaymentByCard(on: self, params: paymentParams,showReceiptScreen: true)
+    self.paymentPresenter?.presentPaymentByCard(on: self, params: paymentParams,showReceiptScreen: true)
    
   }
   
@@ -72,6 +70,6 @@ class PortmoneModule: UIViewController {
   }
   
   private func dismissView() {
-    delegate?.dismissView(viewController: self)
+    self.delegate?.dismissView()
   }
 }
