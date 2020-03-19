@@ -16,9 +16,8 @@ class PortmonePaymentPresenterDelegate: PaymentPresenterDelegate {
     
     if bill != nil {
       let mask = bill?.cardMask ?? ""
-      let token = bill?.token ?? ""
       
-      print("Portmone Card Payment Success: Card mask: \n\(mask), \nToken: \n\(token)")
+      print("Portmone Card Payment Success: Card mask: \n\(mask)")
     }
   }
   
