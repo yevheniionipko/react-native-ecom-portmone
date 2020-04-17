@@ -28,6 +28,13 @@ class PortmoneCardModule: NSObject, RCTBridgeModule, PortmoneCardDelegate {
       billAmount: Double(billAmount)
     )
   }
+    
+  @objc(initCardSaving:)
+  public func initCardSaving(payeeId: String) {
+    self.portmoneCardViewController?.initCardSaving(
+      payeeId: payeeId
+    )
+  }
   
   func dismissView() {
     self.portmoneCardViewController?.dismiss(

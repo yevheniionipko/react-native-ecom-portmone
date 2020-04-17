@@ -2,6 +2,7 @@ package ua.kyivstar.sdk.portmone.rnecom;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -115,14 +116,14 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
     private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
         @Override
         public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
-            Log.d("PORTMONE", intent.toString());
             switch (requestCode) {
                 case Constants.REQUEST_CODE:
                     if (resultCode == RESULT_OK) {
-                        String message = intent.getStringExtra("");
-                        WritableMap map = Arguments.createMap();
-                        map.putString("token", message);
-                        promise.resolve(map);
+                        Bundle bundle = intent.getExtras();
+                        Log.d("PORTMONE", bundle.toString());
+//                        WritableMap map = Arguments.createMap();
+//                        map.putString("token", message);
+//                        promise.resolve(map);
                     } else {
                         promise.reject("PORTMONE", new Error("Result code: " + resultCode));
                     }
