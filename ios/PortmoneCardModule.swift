@@ -32,9 +32,6 @@ class PortmoneCardModule: NSObject, RCTBridgeModule {
       billAmount: Double(billAmount),
       resolve: { token in
         resolve(token)
-    },
-      reject: { error in
-        reject("initCardPayment", String(describing: error?.localizedDescription), error)
     })
   }
   
@@ -44,9 +41,6 @@ class PortmoneCardModule: NSObject, RCTBridgeModule {
       payeeId: payeeId,
       resolve: { token in
         resolve(token)
-    },
-      reject: { error in
-        reject("initCardSaving", String(describing: error?.localizedDescription), error)
     })
   }
 }

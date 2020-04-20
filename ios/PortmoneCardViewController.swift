@@ -31,10 +31,9 @@ class PortmoneCardViewController: UIViewController {
   public func initCardPayment(payeeId: String,
                               phoneNumber: String,
                               billAmount: Double,
-                              resolve: @escaping (_ token: String) -> Void,
-                              reject: @escaping (_ error: Error? ) -> Void
+                              resolve: @escaping (_ token: String) -> Void
   ) {
-    self.resolver = PortmoneCardResolver(resolver: resolve, rejecter: reject)
+    self.resolver = PortmoneCardResolver(resolver: resolve)
     let paymentParams = self.getCardPaymentParams(
       payeeId: payeeId,
       phoneNumber: phoneNumber,
@@ -48,8 +47,8 @@ class PortmoneCardViewController: UIViewController {
     )
   }
   
-  public func initCardSaving(payeeId: String, resolve: @escaping (_ token: String) -> Void, reject: @escaping (_ error: Error? ) -> Void) {
-    self.resolver = PortmoneCardResolver(resolver: resolve, rejecter: reject)
+  public func initCardSaving(payeeId: String, resolve: @escaping (_ token: String) -> Void) {
+    self.resolver = PortmoneCardResolver(resolver: resolve)
     let savingParams = self.getCardSavingParams(payeeId: payeeId)
     
     self.paymentPresenter?.presentPreauthCard(on: self, params: savingParams)
@@ -90,9 +89,8 @@ class PortmoneCardViewController: UIViewController {
 extension PortmoneCardViewController: PortmonePaymentPresenterDelegate {
   func didFinishPayment(bill: Bill?, error: Error?) {
     if error != nil {
-      self.resolver?.onPaymentError(error)
+      self.resolver?.onPaymentFinish("")
       self.resolver = nil
-      
     }
     
     if bill != nil {
