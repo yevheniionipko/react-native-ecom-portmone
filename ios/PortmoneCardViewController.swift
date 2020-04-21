@@ -1,63 +1,59 @@
-
-import UIKit
 import Foundation
+import UIKit
 import PortmoneSDKEcom
 
-protocol PortmoneCardDelegate {
-  func dismissView()
-}
-
 class PortmoneCardViewController: UIViewController {
-
-  public var delegate: PortmoneCardDelegate?
-
   private let paymentType: PaymentType = .mobilePayment
   private let paymentFlowType: PaymentFlowType = .byCard
-
+  
+  private var lang: String?
   private var paymentPresenter: PaymentPresenter?
-  private var presenterDelegate: PortmonePaymentPresenterDelegate?
   private var cardStyle: PortmoneCardStyle?
-
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-
-    self.cardStyle = PortmoneCardStyle.init()
-    self.presenterDelegate = PortmonePaymentPresenterDelegate.init(onDismissSDK: self.dismissView)
-  }
-
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
-  }
-
+  private var resolver: PortmoneCardResolver?
+  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
+  
+  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    
+    self.cardStyle = PortmoneCardStyle.init()
+  }
+  
   public func invokePortmoneSdk(lang: String?) {
     self.paymentPresenter = PaymentPresenter(
-      delegate: presenterDelegate!,
+      delegate: self,
       styleSource: cardStyle,
       language: Language(rawValue: lang!) ?? Language.ukrainian)
   }
-
-  @objc public func initCardPayment(payeeId: String, phoneNumber: String, billAmount: Double) {
+  
+  public func initCardPayment(payeeId: String,
+                              phoneNumber: String,
+                              billAmount: Double,
+                              resolve: @escaping (_ token: String) -> Void
+  ) {
+    self.resolver = PortmoneCardResolver(resolver: resolve)
     let paymentParams = self.getCardPaymentParams(
       payeeId: payeeId,
       phoneNumber: phoneNumber,
       billAmount: billAmount
     )
-
-    self.paymentPresenter?.presentPaymentByCard(on: self, params: paymentParams,showReceiptScreen: true)
-
+    
+    self.paymentPresenter?.presentPaymentByCard(
+      on: self,
+      params: paymentParams,
+      showReceiptScreen: true
+    )
   }
-
-    @objc public func initCardSaving(payeeId: String) {
-
-        let savingParams = self.getCardSavingParams(payeeId: payeeId)
-
-        self.paymentPresenter?.presentPreauthCard(on: self, params: savingParams)
-     }
-
+  
+  public func initCardSaving(payeeId: String, resolve: @escaping (_ token: String) -> Void) {
+    self.resolver = PortmoneCardResolver(resolver: resolve)
+    let savingParams = self.getCardSavingParams(payeeId: payeeId)
+    
+    self.paymentPresenter?.presentPreauthCard(on: self, params: savingParams)
+  }
+  
   private func getCardPaymentParams(
     payeeId: String,
     phoneNumber: String,
@@ -72,9 +68,8 @@ class PortmoneCardViewController: UIViewController {
       type: paymentType,
       paymentFlowType: paymentFlowType
     )
-
   }
-
+  
   private func getCardSavingParams(
     payeeId: String
   ) -> PreauthParams {
@@ -82,8 +77,32 @@ class PortmoneCardViewController: UIViewController {
       payeeId: payeeId
     )
   }
+  
+  private func dismissView() -> Void {
+    self.dismiss(
+      animated: true,
+      completion: self.removeFromParent
+    )
+  }
+}
 
-  private func dismissView() {
-    self.delegate?.dismissView()
+extension PortmoneCardViewController: PortmonePaymentPresenterDelegate {
+  func didFinishPayment(bill: Bill?, error: Error?) {
+    if error != nil {
+      self.resolver?.onPaymentFinish("")
+      self.resolver = nil
+    }
+    
+    if bill != nil {
+      let token = bill?.token ?? ""
+      self.resolver?.onPaymentFinish(token)
+      self.resolver = nil
+    }
+  }
+  
+  func dismissedSDK() {
+    self.resolver?.onPaymentFinish("")
+    self.resolver = nil
+    self.dismissView()
   }
 }
