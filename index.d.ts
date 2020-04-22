@@ -1,10 +1,16 @@
 declare module 'react-native-ecom-portmone' {
+
+    interface SavingCard {
+        token: string
+    }
+
+    interface InvokePortmoneSdk {
+        initCardPayment(payeeId: string, phoneNumber: string, billAmount: number): Promise<void>;
+        initCardSaving(payeeId: string): Promise<SavingCard>;
+    }
+
     class PortmoneCardModule {
-        static invokePortmoneSdk(lang: string): void;
-
-        static initCardPayment(payeeId: string, phoneNumber: string, billAmount: number): void;
-
-        static initCardSaving(payeeId: string): void;
+        invokePortmoneSdk(lang: string): InvokePortmoneSdk;
     }
     export default PortmoneCardModule;
 }

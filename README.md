@@ -64,8 +64,17 @@ type Locale = 'uk' | 'ru' | 'en';
 
 const locale: Locale = 'uk';
 
+interface SavingCard {
+    token: string
+}
+
+interface InvokePortmoneSdk {
+    initCardPayment(payeeId: string, phoneNumber: string, billAmount: number): Promise<void>;
+    initCardSaving(payeeId: string): Promise<SavingCard>;
+}
+
 useEffect(() => {
-    PortmoneSDK.invokePortmoneSdk(locale);
+    const portmone: InvokePortmoneSdk = PortmoneSDK.invokePortmoneSdk(locale);
 }, [])
 
 ```
@@ -77,9 +86,10 @@ const payeeId: string = 'Your payee id';
 const phoneNumber: string = '681234567';
 const amount: number = 10
 
-initPayWithoutCard = () => {
-    PortmoneSDK.initCardPayment(payeeId, phoneNumber, amount);
+initPayWithoutSavingCard = () => {
+    portmone.initCardPayment(payeeId, phoneNumber, amount);
 }
+```
 
 ### Init saving card
 ```tsx
@@ -87,7 +97,7 @@ initPayWithoutCard = () => {
 const payeeId: string = 'Your payee id';
 
 initSavingCard = () => {
-    PortmoneSDK.initCardSaving(payeeId);
+    portmone.initCardSaving(payeeId);
 }
 
 ```

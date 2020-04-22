@@ -39,6 +39,7 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
     private static final List<String> AVAILABLE_LANGUAGES = Arrays.asList(
         Constant$Language.EN, Constant$Language.RU, Constant$Language.UK
     );
+    private static final String TOKEN_PROPERTY = "token";
 
     private ReactApplicationContext reactContext;
     private Promise promise;
@@ -66,12 +67,12 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
             PortmoneSDK.setFingerprintPaymentEnable(true);
             PortmoneSDK.setAppStyle(styles);
         } catch (IllegalViewOperationException e) {
-            Log.d("PORTMONE", "invokePortmoneSdk: ERROR", e);
+            Log.d(Constants.PORTMONE_TAG, "invokePortmoneSdk: ERROR", e);
         }
     }
 
     @ReactMethod
-    public void initCardPayment(String payeeId, String phoneNumber, int billAmount) {
+    public void initCardPayment(String payeeId, String phoneNumber, int billAmount, final Promise promise) {
         try {
             final CardPaymentParams params = new CardPaymentParams(
                 payeeId,
@@ -90,13 +91,14 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
                 Constants.REQUEST_CODE,
                 params
             );
+            this.promise = promise;
         } catch (IllegalViewOperationException e) {
-            Log.d("PORTMONE", "initCardPayment: ERROR", e);
+            Log.d(Constants.PORTMONE_TAG, "initCardPayment: ERROR", e);
         }
     }
 
     @ReactMethod
-    public void initCardSaving(String payeeId) {
+    public void initCardSaving(String payeeId, final Promise promise) {
         try {
             final SaveCardParams saveCardParams = new SaveCardParams(
                 payeeId,
@@ -108,8 +110,9 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
                 Constants.REQUEST_CODE,
                 saveCardParams
             );
+            this.promise = promise;
         } catch (IllegalViewOperationException e) {
-            Log.d("PORTMONE", "initCardSaving: ERROR", e);
+            Log.d(Constants.PORTMONE_TAG, "initCardSaving: ERROR", e);
         }
     }
 
@@ -120,16 +123,17 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
                 case Constants.REQUEST_CODE:
                     if (resultCode == RESULT_OK) {
                         Bundle bundle = intent.getExtras();
-                        Log.d("PORTMONE", bundle.toString());
-//                        WritableMap map = Arguments.createMap();
-//                        map.putString("token", message);
-//                        promise.resolve(map);
+                        Bill bill = (Bill)bundle.get(Constants.BILL_KEY);
+                        String token = bill.getToken();
+                        WritableMap map = Arguments.createMap();
+                        map.putString(TOKEN_PROPERTY, token);
+                        promise.resolve(map);
                     } else {
-                        promise.reject("PORTMONE", new Error("Result code: " + resultCode));
+                        promise.reject(Constants.PORTMONE_TAG, new Error("Result code: " + resultCode));
                     }
                     promise = null;
                     break;
             }
         }
-    }
+    };
 }
