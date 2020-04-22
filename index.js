@@ -23,8 +23,8 @@ function initCardSaving(payeeId) {
   }
 }
 
-class PortmoneCardModule {
-  invokePortmoneSdk(lang) {
+export default class PortmoneCardModule {
+  static invokePortmoneSdk(lang) {
     if (typeof lang !== 'string') {
       throw new Error('lang must be string');
     }
@@ -35,5 +35,3 @@ class PortmoneCardModule {
     }
   }
 };
-
-export default new PortmoneCardModule();

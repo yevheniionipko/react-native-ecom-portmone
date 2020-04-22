@@ -10,7 +10,7 @@ declare module 'react-native-ecom-portmone' {
     }
 
     class PortmoneCardModule {
-        invokePortmoneSdk(lang: string): InvokePortmoneSdk;
+        static invokePortmoneSdk(lang: string): InvokePortmoneSdk;
     }
     export default PortmoneCardModule;
 }
